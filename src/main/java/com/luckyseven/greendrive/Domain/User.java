@@ -1,5 +1,6 @@
 package com.luckyseven.greendrive.Domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String userId; // 아이디
     private String userPassword; // 비밀번호
@@ -27,4 +28,9 @@ public class User {
     private List<Favorite> favoriteList = new ArrayList<>();
 
 
+    @Builder
+    public User(String userId, String userPassword) {
+        this.userId = userId;
+        this.userPassword = userPassword;
+    }
 }
