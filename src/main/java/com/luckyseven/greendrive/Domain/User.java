@@ -1,6 +1,6 @@
 package com.luckyseven.greendrive.Domain;
 
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "users")
-@Getter
+@Data
 public class User {
 
     @Id
@@ -21,10 +21,10 @@ public class User {
     private String userPassword; // 비밀번호
 
     @OneToMany(mappedBy = "user")
-    private List<Review> reviews = new ArrayList<>();
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Favorite> favorites = new ArrayList<>();
+    private List<Favorite> favoriteList = new ArrayList<>();
 
 
 }
