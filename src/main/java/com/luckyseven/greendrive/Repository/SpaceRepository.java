@@ -1,4 +1,9 @@
 package com.luckyseven.greendrive.Repository;
 
-public class SpaceRepository {
+import com.luckyseven.greendrive.Domain.Space;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface SpaceRepository extends JpaRepository<Space, Long> {
 }

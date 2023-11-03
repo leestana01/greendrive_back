@@ -1,4 +1,9 @@
 package com.luckyseven.greendrive.Repository;
 
-public class FavoriteRepository {
+import com.luckyseven.greendrive.Domain.Favorite;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
 }
