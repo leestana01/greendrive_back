@@ -29,13 +29,13 @@ public class OAuth2Controller {
 
             //TODO: response 설정 해야 됨
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(BaseResponse.builder().result(loginResDto).build());
+                    .body(loginResDto);
 
 
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage()));
+                    .body(e.getMessage());
         }
     }
 }

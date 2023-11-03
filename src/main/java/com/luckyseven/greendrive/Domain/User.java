@@ -2,6 +2,7 @@ package com.luckyseven.greendrive.Domain;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity(name = "users")
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
