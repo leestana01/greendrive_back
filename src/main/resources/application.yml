@@ -1,12 +1,21 @@
 spring:
   profiles:
     include: oauth
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    username: root
+#    password: root
+#    url: jdbc:mysql://myluckytest.kro.kr:3306/greendrive?useSSL=false&serverTimezone=Asia/Seoul
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://myluckytest.kro.kr:3306/greendrive?useSSL=false&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3306/greendrive?useSSL=false&serverTimezone=Asia/Seoul
   jpa:
     defer-datasource-initialization: true
     hibernate:
