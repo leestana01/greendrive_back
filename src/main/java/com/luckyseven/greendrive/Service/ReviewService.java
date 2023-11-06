@@ -35,8 +35,8 @@ public class ReviewService {
         Review newReview = new Review();
         newReview.setContent(review.getContent());
         Optional<User> optionalUser = userRepository.findById(userId);
-        Space s = spaceRepository.findBySpaceId(spaceId);
-        newReview.setSpace(s);
+        Optional<Space> s = spaceRepository.findById(spaceId);
+        s.ifPresent(newReview::setSpace);
         if (optionalUser.isPresent()) {
             User u = optionalUser.get();
             newReview.setUser(u);
@@ -57,16 +57,15 @@ public class ReviewService {
 
 
     public void delete(long userId, String spaceId) {
-        List<Review> optionalReview = spaceRepository.findAllReviewsByUserIdAndSpaceId(userId, spaceId);
         reviewRepository.deleteByUserIdAndSpaceId(userId,spaceId);
     }
 
     public List<Review> findAllBySpaceId(String spaceId) {
-        return reviewRepository.findReviewsBySpaceId(spaceId);
+        return reviewRepository.findBySpaceId(spaceId);
     }
 
     public List<Review> findAllByUserId(long userId) {
-        return reviewRepository.findReviewsByUserId(userId);
+        return reviewRepository.findByUserId(userId);
     }
 
     @Transactional
