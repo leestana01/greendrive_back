@@ -1,2 +1,27 @@
-package com.luckyseven.greendrive.dto;public class SpaceReqDto {
+package com.luckyseven.greendrive.dto;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+
+import java.time.LocalTime;
+
+@Data
+public class SpaceReqDto {
+
+    private String id;
+
+    private String parkName; // 주차장명
+    private String address; // 소재지지번주소
+    private Integer type; // 주차장구분 (공영 : 0, 민영 : 1, 가짜(파트너): 2)
+
+    private double latitude = 0; // 위도
+    private double longitude = 0; // 경도
+
+    private LocalTime weekdayStart; // 평일운영시작시각
+    private LocalTime weekdayEnd; // 평일운영종료시각
+    private LocalTime saturdayStart; // 토요일운영시작시각
+    private LocalTime saturdayEnd; // 토요일운영종료시각
+    private LocalTime holidayStart; // 공휴일운영시작시각
+    private LocalTime holidayEnd; // 공휴일운영종료시각
 }

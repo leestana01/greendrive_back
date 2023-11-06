@@ -1,11 +1,15 @@
 package com.luckyseven.greendrive.dto;
 
+import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 
-@Setter
+@Data
+@ToString // 디버그용
 // 카카오맵 마커 표시를 위한 전체 반환용 DTO
-public class SpaceResAllDto {
+public class SpaceForMarkersDto {
 
     private String id;
 

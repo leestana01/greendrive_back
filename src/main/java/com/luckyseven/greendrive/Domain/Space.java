@@ -1,18 +1,20 @@
 package com.luckyseven.greendrive.Domain;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.luckyseven.greendrive.dto.SpaceReqDto;
+import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
+import com.luckyseven.greendrive.dto.SpaceResDto;
+import lombok.*;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Space {
 
     @Id
@@ -34,5 +36,90 @@ public class Space {
     private LocalTime holidayEnd; // 공휴일운영종료시각
 
     @OneToMany(mappedBy = "space")
-    private List<Review> reviewList; // 리뷰 목록
+    private List<Review> reviewList = new ArrayList<>(); // 리뷰 목록
+
+    public Space(SpaceReqDto dto) {
+        this.id = dto.getId();
+        this.parkName = dto.getParkName();
+        this.address = dto.getAddress();
+        this.type = dto.getType();
+        this.latitude = dto.getLatitude();
+        this.longitude = dto.getLongitude();
+        this.weekdayStart = dto.getWeekdayStart();
+        this.weekdayEnd = dto.getWeekdayEnd();
+        this.saturdayStart = dto.getSaturdayStart();
+        this.saturdayEnd = dto.getSaturdayEnd();
+        this.holidayStart = dto.getHolidayStart();
+        this.holidayEnd = dto.getHolidayEnd();
+    }
+
+    public SpaceResDto toDTO() {
+        SpaceResDto dto = new SpaceResDto();
+
+        dto.setId(this.id);
+        dto.setParkName(this.parkName);
+        dto.setAddress(this.address);
+        dto.setType(this.type);
+        dto.setLatitude(this.latitude);
+        dto.setLongitude(this.longitude);
+        dto.setWeekdayStart(this.weekdayStart);
+        dto.setWeekdayEnd(this.weekdayEnd);
+        dto.setSaturdayStart(this.saturdayStart);
+        dto.setSaturdayEnd(this.saturdayEnd);
+        dto.setHolidayStart(this.holidayStart);
+        dto.setHolidayEnd(this.holidayEnd);
+
+        return dto;
+    }
+
+    public SpaceForMarkersDto toDTOforAll(){
+        SpaceForMarkersDto dto = new SpaceForMarkersDto();
+
+        dto.setId(this.id);
+        dto.setParkName(this.parkName);
+        dto.setType(this.type);
+        dto.setLatitude(this.latitude);
+        dto.setLongitude(this.longitude);
+        return dto;
+    }
+
+    public Space updateFromDto(SpaceReqDto dto) {
+        if (dto.getParkName() != null) {
+            this.parkName = dto.getParkName();
+        }
+        if (dto.getAddress() != null) {
+            this.address = dto.getAddress();
+        }
+        if (dto.getType() != null) {
+            this.type = dto.getType();
+        }
+
+        if (dto.getLatitude() != 0) {
+            this.latitude = dto.getLatitude();
+        }
+        if (dto.getLongitude() != 0) {
+            this.longitude = dto.getLongitude();
+        }
+
+        if (dto.getWeekdayStart() != null) {
+            this.weekdayStart = dto.getWeekdayStart();
+        }
+        if (dto.getWeekdayEnd() != null) {
+            this.weekdayEnd = dto.getWeekdayEnd();
+        }
+        if (dto.getSaturdayStart() != null) {
+            this.saturdayStart = dto.getSaturdayStart();
+        }
+        if (dto.getSaturdayEnd() != null) {
+            this.saturdayEnd = dto.getSaturdayEnd();
+        }
+        if (dto.getHolidayStart() != null) {
+            this.holidayStart = dto.getHolidayStart();
+        }
+        if (dto.getHolidayEnd() != null) {
+            this.holidayEnd = dto.getHolidayEnd();
+        }
+        return this;
+    }
+
 }
