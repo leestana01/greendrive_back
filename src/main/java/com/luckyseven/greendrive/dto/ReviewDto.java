@@ -18,6 +18,7 @@ import javax.persistence.*;
 public class ReviewDto {
 
     private long id;
+    private String userId;
     private MultipartFile reviewImage;
     private String content;
 

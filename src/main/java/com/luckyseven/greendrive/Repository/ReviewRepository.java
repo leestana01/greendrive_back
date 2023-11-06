@@ -13,16 +13,16 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findBySpaceId(String spaceId);
+    List<Review> findBySpaceId(@Param("spaceId") String spaceId);
 
-    List<Review> findByUserId(long userId);
+    @Query("SELECT r FROM Review r WHERE r.user.userId =:userId")
+    List<Review> findByUserId(@Param("userId") String userId);
 
-    @Query("SELECT r FROM Review r WHERE r.user.id =:userId AND r.space.id = :spaceId")
-    List<Review> findReviewByUserIdAndSpaceId(long userId, String spaceId);
+    @Query("SELECT r FROM Review r WHERE r.user.userId =:userId AND r.space.id = :spaceId")
+    List<Review> findByUserIdAndSpaceId(@Param("userId") String userId, @Param("spaceId") String spaceId);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Review r WHERE r.user.id =:userId AND r.space.id = :spaceId")
     void deleteByUserIdAndSpaceId(long userId, String spaceId);
 
 

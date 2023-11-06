@@ -1,5 +1,6 @@
 package com.luckyseven.greendrive.Domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,8 +13,12 @@ public class Favorite {
     @GeneratedValue
     private long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    private String content; // 리뷰 내용
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Space space;
+
 }
