@@ -26,15 +26,16 @@ public class ReviewService {
     private final SpaceRepository spaceRepository;
     private final ImageRepository imageRepository;
 
-    public Review save(String spaceId, long userId, ReviewDto review) throws IOException {
-        List<Review> reviewObject = reviewRepository.findReviewByUserIdAndSpaceId(userId, spaceId);
+    public Review save(String spaceId, ReviewDto review) throws IOException {
+        String userId = review.getUserId();
+        List<Review> reviewObject = reviewRepository.findByUserIdAndSpaceId(userId, spaceId);
         if (!reviewObject.isEmpty()){
             reviewRepository.deleteById(reviewObject.get(0).getId());
         } //삭제 후 업데이트 하기
 
         Review newReview = new Review();
         newReview.setContent(review.getContent());
-        Optional<User> optionalUser = userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findByUserId(userId);
         Optional<Space> s = spaceRepository.findById(spaceId);
         s.ifPresent(newReview::setSpace);
         if (optionalUser.isPresent()) {
@@ -56,21 +57,27 @@ public class ReviewService {
     }
 
 
-    public void delete(long userId, String spaceId) {
-        reviewRepository.deleteByUserIdAndSpaceId(userId,spaceId);
+    public void delete(String userId, String spaceId) {
+        Optional<User> u = userRepository.findByUserId(userId);
+        if (u.isPresent()) {
+            User user = u.get();
+            long id = user.getId();
+            reviewRepository.deleteByUserIdAndSpaceId(id,spaceId);
+        }
     }
 
     public List<Review> findAllBySpaceId(String spaceId) {
         return reviewRepository.findBySpaceId(spaceId);
     }
 
-    public List<Review> findAllByUserId(long userId) {
+    public List<Review> findAllByUserId(String userId) {
         return reviewRepository.findByUserId(userId);
     }
 
     @Transactional
-    public Review update(ReviewDto review, String spaceId, long userId) throws IOException {
-        List<Review> r = reviewRepository.findReviewByUserIdAndSpaceId(userId, spaceId);
+    public Review update(ReviewDto review, String spaceId) throws IOException {
+        String userId = review.getUserId();
+        List<Review> r = reviewRepository.findByUserIdAndSpaceId(userId, spaceId);
         if (r.isEmpty()) throw new IllegalArgumentException("해당 게시글이 존재하지 않습니다.");
         if (review.getReviewImage()!=null) {
             MultipartFile file = review.getReviewImage();
