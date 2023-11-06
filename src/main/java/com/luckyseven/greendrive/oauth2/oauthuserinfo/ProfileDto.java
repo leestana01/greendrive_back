@@ -10,5 +10,8 @@ import lombok.NoArgsConstructor;
 public class ProfileDto {
     private String id;
     private String email;
+    private String name;
+    private String phone_number;
+
 
 }

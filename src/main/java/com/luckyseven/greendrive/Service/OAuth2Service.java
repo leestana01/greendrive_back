@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.luckyseven.greendrive.Domain.User;
 import com.luckyseven.greendrive.Repository.UserRepository;
-import com.luckyseven.greendrive.dto.LoginResDto;
+import com.luckyseven.greendrive.dto.memberdto.LoginResDto;
 import com.luckyseven.greendrive.oauth2.oauthuserinfo.KakaoProfile;
 import com.luckyseven.greendrive.oauth2.oauthuserinfo.ProfileDto;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +89,8 @@ public class OAuth2Service {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         KakaoProfile kakaoProfile = objectMapper.readValue(response.getBody(), KakaoProfile.class);
 
-        return new ProfileDto(kakaoProfile.getId(),kakaoProfile.getKakao_account().getEmail());
+        return new ProfileDto(kakaoProfile.getId(),kakaoProfile.getKakao_account().getEmail(),
+                kakaoProfile.getKakao_account().getName(),kakaoProfile.getKakao_account().getPhone_number());
     }
 
     @Transactional
@@ -107,9 +107,14 @@ public class OAuth2Service {
 
         }
         catch(Exception e){
+            Random rand = new Random();
+            int tmp = rand.nextInt(900000)+100000;
             User user = User.builder()
                     .userId(profileDto.getEmail())
-                    .userPassword(1234+"")
+                    .userPassword(Integer.toString(tmp))
+                    .carType("무")
+                    .name(profileDto.getName())
+                    .phoneNo(profileDto.getPhone_number())
                     .build();
 
             userRepository.save(user);
