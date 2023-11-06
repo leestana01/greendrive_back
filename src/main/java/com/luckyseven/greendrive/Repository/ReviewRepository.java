@@ -13,11 +13,9 @@ import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    @Query("SELECT r FROM Review r WHERE r.space.id = :spaceId")
-    List<Review> findReviewsBySpaceId(String spaceId);
+    List<Review> findBySpaceId(String spaceId);
 
-    @Query("SELECT r FROM Review r WHERE r.user.id = :userId")
-    List<Review> findReviewsByUserId(long userId);
+    List<Review> findByUserId(long userId);
 
     @Query("SELECT r FROM Review r WHERE r.user.id =:userId AND r.space.id = :spaceId")
     List<Review> findReviewByUserIdAndSpaceId(long userId, String spaceId);
