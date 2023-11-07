@@ -1,7 +1,9 @@
 package com.luckyseven.greendrive.Controller;
 
+import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Service.SpaceService;
 import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
+import com.luckyseven.greendrive.dto.SpaceForSearchDto;
 import com.luckyseven.greendrive.dto.SpaceReqDto;
 import com.luckyseven.greendrive.dto.SpaceResDto;
 import lombok.RequiredArgsConstructor;
@@ -45,5 +47,18 @@ public class SpaceController {
     public ResponseEntity<Void> deleteSpace(@PathVariable String spaceId) {
         spaceService.deleteById(spaceId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<SpaceForSearchDto>> searchSpaces(@RequestParam String keyword) {
+        Integer spaceType = null;
+        if ("공영".equals(keyword)) {
+            spaceType = 0;
+        } else if ("민영".equals(keyword)) {
+            spaceType = 1;
+        } else if ("가짜".equals(keyword)) {
+            spaceType = 2;
+        }
+        return ResponseEntity.ok(spaceService.searchSpaces(keyword, spaceType));
     }
 }

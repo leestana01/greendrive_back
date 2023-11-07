@@ -1,5 +1,6 @@
 package com.luckyseven.greendrive.Domain;
 
+import com.luckyseven.greendrive.dto.SpaceForSearchDto;
 import com.luckyseven.greendrive.dto.SpaceReqDto;
 import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
 import com.luckyseven.greendrive.dto.SpaceResDto;
@@ -72,14 +73,23 @@ public class Space {
         return dto;
     }
 
-    public SpaceForMarkersDto toDTOforAll(){
+    public SpaceForMarkersDto toDTOforMarkers(){
         SpaceForMarkersDto dto = new SpaceForMarkersDto();
 
         dto.setId(this.id);
-        dto.setParkName(this.parkName);
         dto.setType(this.type);
         dto.setLatitude(this.latitude);
         dto.setLongitude(this.longitude);
+        return dto;
+    }
+
+    public SpaceForSearchDto toDTOforSearch(){
+        SpaceForSearchDto dto = new SpaceForSearchDto();
+
+        dto.setId(this.id);
+        dto.setType(this.type);
+        dto.setAddress(this.address);
+        dto.setParkName(this.parkName);
         return dto;
     }
 

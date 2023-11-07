@@ -2,6 +2,7 @@ package com.luckyseven.greendrive.Service;
 
 import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Repository.SpaceRepository;
+import com.luckyseven.greendrive.dto.SpaceForSearchDto;
 import com.luckyseven.greendrive.dto.SpaceReqDto;
 import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
 import com.luckyseven.greendrive.dto.SpaceResDto;
@@ -12,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,25 +31,17 @@ public class SpaceService {
 
     // READ 영역 -------------------------------
     public List<SpaceForMarkersDto> findAll(){
-        List<Space> spaceList = spaceRepository.findAll();
-        List<SpaceForMarkersDto> spaceDtoList = new ArrayList<>();
-        for (Space space : spaceList) {
-            SpaceForMarkersDto dto = new SpaceForMarkersDto();
-            dto.setId(space.getId());
-            dto.setType(space.getType());
-            dto.setLatitude(space.getLatitude());
-            dto.setLongitude(space.getLongitude());
-            dto.setParkName(space.getParkName());
-
-            spaceDtoList.add(dto);
-        }
-        return spaceDtoList;
+        return spaceRepository.findAll().stream().map(Space::toDTOforMarkers).collect(Collectors.toList());
     }
 
     public SpaceResDto findById(String spaceId){
         return spaceRepository.findById(spaceId)
                 .orElseThrow(() -> new EntityNotFoundException("Space가 존재하지 않음 - Id 값 : " + spaceId))
                 .toDTO();
+    }
+
+    public List<SpaceForSearchDto> searchSpaces(String keyword, Integer type) {
+        return spaceRepository.findByKeywordOrType(keyword, type).stream().map(Space::toDTOforSearch).collect(Collectors.toList());
     }
 
     // UPDATE 영역 -------------------------------
