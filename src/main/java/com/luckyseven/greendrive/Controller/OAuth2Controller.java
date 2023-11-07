@@ -1,7 +1,7 @@
 package com.luckyseven.greendrive.Controller;
 
 import com.luckyseven.greendrive.Service.OAuth2Service;
-import com.luckyseven.greendrive.dto.LoginResDto;
+import com.luckyseven.greendrive.dto.memberdto.LoginResDto;
 import com.luckyseven.greendrive.oauth2.oauthuserinfo.ProfileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

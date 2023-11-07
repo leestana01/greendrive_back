@@ -13,6 +13,8 @@ public class KakaoProfile {
 
     @Data
     public class KakaoAccount{
+        private String name;
         private String email;
+        private String phone_number;
     }
 }

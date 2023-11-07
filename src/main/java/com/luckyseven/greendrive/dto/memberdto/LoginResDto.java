@@ -1,4 +1,4 @@
-package com.luckyseven.greendrive.dto;
+package com.luckyseven.greendrive.dto.memberdto;
 
 
 import lombok.AllArgsConstructor;
