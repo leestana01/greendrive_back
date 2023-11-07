@@ -2,17 +2,15 @@ package com.luckyseven.greendrive.Service;
 
 import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Repository.SpaceRepository;
-import com.luckyseven.greendrive.dto.SpaceForSearchDto;
-import com.luckyseven.greendrive.dto.SpaceReqDto;
-import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
-import com.luckyseven.greendrive.dto.SpaceResDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceReqDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForMarkersDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

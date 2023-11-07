@@ -1,4 +1,4 @@
-package com.luckyseven.greendrive.dto;
+package com.luckyseven.greendrive.dto.spacedto;
 
 import lombok.Builder;
 import lombok.Data;
