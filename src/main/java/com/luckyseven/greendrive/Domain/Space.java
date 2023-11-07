@@ -1,9 +1,9 @@
 package com.luckyseven.greendrive.Domain;
 
-import com.luckyseven.greendrive.dto.SpaceForSearchDto;
-import com.luckyseven.greendrive.dto.SpaceReqDto;
-import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
-import com.luckyseven.greendrive.dto.SpaceResDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceReqDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForMarkersDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceResDto;
 import lombok.*;
 
 import javax.persistence.Entity;

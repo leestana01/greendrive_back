@@ -1,11 +1,10 @@
 package com.luckyseven.greendrive.Controller;
 
-import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Service.SpaceService;
-import com.luckyseven.greendrive.dto.SpaceForMarkersDto;
-import com.luckyseven.greendrive.dto.SpaceForSearchDto;
-import com.luckyseven.greendrive.dto.SpaceReqDto;
-import com.luckyseven.greendrive.dto.SpaceResDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForMarkersDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceReqDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
