@@ -9,6 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Builder
 public class FavoriteDto {
-    private long id;
+    private String userId;
     private String spaceId;
 }

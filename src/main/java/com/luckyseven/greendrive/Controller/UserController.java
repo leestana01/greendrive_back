@@ -8,6 +8,7 @@ import com.luckyseven.greendrive.dto.FavoriteDto;
 import com.luckyseven.greendrive.dto.memberdto.FindIdReqDto;
 import com.luckyseven.greendrive.dto.memberdto.LoginReqDto;
 import com.luckyseven.greendrive.dto.memberdto.SignupReqDto;
+import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,21 +42,21 @@ public class UserController {
                 .body(userService.findUserId(findIdReqDto));
     }
 
-    @PostMapping("/{userId}/favorites")
-    public ResponseEntity<Favorite> create(@RequestBody FavoriteDto favoriteDto,
-                                           @PathVariable String userId){
-        Favorite fav = favoriteService.create(userId, favoriteDto);
-        return ResponseEntity.status(HttpStatus.OK).body(fav);
+    @PostMapping("/favorites")
+    public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteDto favoriteDto){
+        favoriteService.create(favoriteDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}/favorites")
-    public ResponseEntity<List<Space>> read(@PathVariable String userId){
-        List<Space> favoriteSpaceList = favoriteService.read(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(favoriteSpaceList);
+    @GetMapping("/favorites")
+    public ResponseEntity<List<SpaceForSearchDto>> read(@RequestBody FavoriteDto favoriteDto){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(favoriteService.read(favoriteDto));
     }
 
     @DeleteMapping("/favorites")
-    public void delete(@RequestBody FavoriteDto favoriteDto) {
-        favoriteService.delete(favoriteDto.getId());
+    public ResponseEntity<String> delete(@RequestBody FavoriteDto favoriteDto) {
+        favoriteService.delete(favoriteDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
