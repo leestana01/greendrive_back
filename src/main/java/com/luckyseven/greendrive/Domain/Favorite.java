@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luckyseven.greendrive.dto.FavoriteDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Data
-@RequiredArgsConstructor
 public class Favorite {
 
     @Id
@@ -19,11 +19,11 @@ public class Favorite {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    private final User user;
+    private User user;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    private final Space space;
+    private Space space;
 
     public FavoriteDto toDto(){
         FavoriteDto dto = new FavoriteDto();

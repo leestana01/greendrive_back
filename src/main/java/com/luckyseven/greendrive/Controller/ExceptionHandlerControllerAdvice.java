@@ -1,5 +1,6 @@
 package com.luckyseven.greendrive.Controller;
 
+import com.luckyseven.greendrive.exception.FavoriteAlreadyExistException;
 import com.luckyseven.greendrive.exception.FavoriteNotFoundException;
 import com.luckyseven.greendrive.exception.SpaceNotFoundException;
 import com.luckyseven.greendrive.exception.UserNotFoundException;
@@ -24,6 +25,11 @@ public class ExceptionHandlerControllerAdvice {
     @ExceptionHandler(FavoriteNotFoundException.class)
     public ResponseEntity<?> handleFavoriteNotFoundException(FavoriteNotFoundException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FavoriteAlreadyExistException.class)
+    public ResponseEntity<?> handleFavoriteAlreadyExistException(FavoriteAlreadyExistException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

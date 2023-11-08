@@ -9,6 +9,7 @@ import com.luckyseven.greendrive.Repository.UserRepository;
 import com.luckyseven.greendrive.dto.FavoriteDto;
 import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
 import com.luckyseven.greendrive.dto.spacedto.SpaceResDto;
+import com.luckyseven.greendrive.exception.FavoriteAlreadyExistException;
 import com.luckyseven.greendrive.exception.FavoriteNotFoundException;
 import com.luckyseven.greendrive.exception.SpaceNotFoundException;
 import com.luckyseven.greendrive.exception.UserNotFoundException;
@@ -33,8 +34,12 @@ public class FavoriteService {
         Space space = spaceRepository.findById(favoriteDto.getSpaceId())
                 .orElseThrow(() -> new SpaceNotFoundException(favoriteDto.getSpaceId()));
 
-        Favorite favorite = favoriteRepository.findByUserAndSpace(user,space).orElse(new Favorite(user, space));
-
+        if (favoriteRepository.findByUserAndSpace(user,space).isPresent()){
+            throw new FavoriteAlreadyExistException(user.getUserId(), space.getId());
+        }
+        Favorite favorite = new Favorite();
+        favorite.setUser(user);
+        favorite.setSpace(space);
         favoriteRepository.save(favorite);
         return favorite.toDto();
     }
