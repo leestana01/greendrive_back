@@ -19,7 +19,7 @@ public class ReviewController {
 
     @PostMapping("/{spaceId}") //리뷰 저장, 있다면 덮어씌우기
     public ResponseEntity<Review> save(@PathVariable String spaceId,
-                                       @RequestBody ReviewDto review) throws IOException {
+                                       @ModelAttribute ReviewDto review) throws IOException {
         Review r = reviewService.save(spaceId,review);
         return ResponseEntity.status(HttpStatus.CREATED).body(r);
 
@@ -38,7 +38,7 @@ public class ReviewController {
     }
 
     @PutMapping("/{spaceId}")
-    public ResponseEntity<Review> update(@RequestBody ReviewDto review,
+    public ResponseEntity<Review> update(@ModelAttribute ReviewDto review,
                                          @PathVariable String spaceId) throws IOException {
         Review updateReview = reviewService.update(review,spaceId);
         return ResponseEntity.status(HttpStatus.OK).body(updateReview);
