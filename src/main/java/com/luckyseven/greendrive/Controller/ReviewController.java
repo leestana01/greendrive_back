@@ -17,7 +17,7 @@ import java.util.List;
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @PostMapping("/{spaceId}") //리뷰 저장, 있다면 덮어씌우기
+    @PostMapping("/{spaceId}") //리뷰 저장, 있다면 덮어 씌우기
     public ResponseEntity<Review> save(@PathVariable String spaceId,
                                        @ModelAttribute ReviewDto review) throws IOException {
         Review r = reviewService.save(spaceId,review);
