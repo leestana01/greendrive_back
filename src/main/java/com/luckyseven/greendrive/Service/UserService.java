@@ -20,6 +20,9 @@ public class UserService {
         if(userRepository.findByUserId(signupReqDto.getUserId()).isPresent()){
             throw new UserDuplicateException("아이디가 이미 존재합니다.");
         }
+        if(userRepository.findByPhoneNo(signupReqDto.getPhoneNo()).isPresent()){
+            throw new UserDuplicateException("전화번호가 이미 존재합니다.");
+        }
         User user = User.builder()
                 .userId(signupReqDto.getUserId())
                 .userPassword(signupReqDto.getPassword())

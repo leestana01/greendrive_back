@@ -49,9 +49,9 @@ public class UserController {
     }
 
     @GetMapping("/favorites")
-    public ResponseEntity<List<SpaceForSearchDto>> read(@RequestBody FavoriteDto favoriteDto){
+    public ResponseEntity<List<SpaceForSearchDto>> read(@RequestParam String userId){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(favoriteService.read(favoriteDto));
+                .body(favoriteService.read(userId));
     }
 
     @DeleteMapping("/favorites")

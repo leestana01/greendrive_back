@@ -41,9 +41,9 @@ public class FavoriteService {
         return favorite.toDto();
     }
 
-    public List<SpaceForSearchDto> read(FavoriteDto favoriteDto) {
-        User user = userRepository.findByUserId(favoriteDto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(favoriteDto.getUserId()));
+    public List<SpaceForSearchDto> read(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
         List<Favorite> favoriteList = favoriteRepository.findByUser(user);
         return favoriteList.stream().map(Favorite::getSpace).map(Space::toDTOforSearch).collect(Collectors.toList());
     }

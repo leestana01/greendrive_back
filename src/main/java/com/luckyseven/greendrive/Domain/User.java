@@ -33,6 +33,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Favorite> favoriteList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Subscription> subscriptionList = new ArrayList<>();
+
     @Builder
     public User(String name, String userId, String userPassword, String carType, String phoneNo) {
         this.name = name;
