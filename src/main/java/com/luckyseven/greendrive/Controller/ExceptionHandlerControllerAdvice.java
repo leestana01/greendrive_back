@@ -1,9 +1,6 @@
 package com.luckyseven.greendrive.Controller;
 
-import com.luckyseven.greendrive.exception.FavoriteAlreadyExistException;
-import com.luckyseven.greendrive.exception.FavoriteNotFoundException;
-import com.luckyseven.greendrive.exception.UserDuplicateException;
-import com.luckyseven.greendrive.exception.UserNotFoundException;
+import com.luckyseven.greendrive.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,7 +16,7 @@ public class ExceptionHandlerControllerAdvice {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({UserDuplicateException.class, FavoriteAlreadyExistException.class})
+    @ExceptionHandler({UserDuplicateException.class, FavoriteAlreadyExistException.class, ImageNotFoundException.class})
     public ResponseEntity<?> handleFavoriteAlreadyExistException(FavoriteAlreadyExistException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }

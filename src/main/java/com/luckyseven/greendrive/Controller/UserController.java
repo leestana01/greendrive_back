@@ -5,9 +5,7 @@ import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Service.FavoriteService;
 import com.luckyseven.greendrive.Service.UserService;
 import com.luckyseven.greendrive.dto.FavoriteDto;
-import com.luckyseven.greendrive.dto.memberdto.FindIdReqDto;
-import com.luckyseven.greendrive.dto.memberdto.LoginReqDto;
-import com.luckyseven.greendrive.dto.memberdto.SignupReqDto;
+import com.luckyseven.greendrive.dto.memberdto.*;
 import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,6 +44,19 @@ public class UserController {
     public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteDto favoriteDto){
         favoriteService.create(favoriteDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/profile-image")
+    public ResponseEntity<?> changeProfileImageByUserId(@ModelAttribute ImageChangeReqDto imageChangeReqDto){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.changeProfileImageById(imageChangeReqDto));
+
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<InfoResDto> findUserInfoById(@RequestParam String userId){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findUserInfoById(userId));
     }
 
     @GetMapping("/favorites")

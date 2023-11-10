@@ -1,15 +1,17 @@
 package com.luckyseven.greendrive.Service;
 
+import com.luckyseven.greendrive.Domain.Image;
 import com.luckyseven.greendrive.Domain.User;
 import com.luckyseven.greendrive.Repository.UserRepository;
-import com.luckyseven.greendrive.dto.memberdto.FindIdReqDto;
-import com.luckyseven.greendrive.dto.memberdto.LoginReqDto;
-import com.luckyseven.greendrive.dto.memberdto.LoginResDto;
-import com.luckyseven.greendrive.dto.memberdto.SignupReqDto;
+import com.luckyseven.greendrive.dto.memberdto.*;
+import com.luckyseven.greendrive.exception.ImageNotFoundException;
 import com.luckyseven.greendrive.exception.UserDuplicateException;
 import com.luckyseven.greendrive.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -55,5 +57,39 @@ public class UserService {
                 .orElseThrow(()->new UserNotFoundException("해당 정보와 일치하는 유저가 존재하지 않습니다."));
 
         return user.getUserId();
+    }
+
+    public InfoResDto findUserInfoById(String userId){
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        InfoResDto.InfoResDtoBuilder builder = InfoResDto.builder()
+                .id(user.getId())
+                .userId(user.getUserId())
+                .name(user.getName());
+        if (user.getProfileImg() != null) {
+            builder.profileImage(user.getProfileImg().getData());
+        }
+        return builder.build();
+    }
+
+    public InfoResDto changeProfileImageById(ImageChangeReqDto dto) {
+        User user = userRepository.findByUserId(dto.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(dto.getUserId()));
+
+        Image image = user.getProfileImg() != null ? user.getProfileImg() : new Image();
+        try {
+            image.setData(dto.getProfileImage().getBytes());
+        } catch (IOException e) {
+            image.setData(null);
+        }
+        user.setProfileImg(image);
+        userRepository.save(user);
+
+        return InfoResDto.builder()
+                .id(user.getId())
+                .userId(user.getUserId())
+                .name(user.getName())
+                .profileImage(user.getProfileImg().getData())
+                .build();
     }
 }
