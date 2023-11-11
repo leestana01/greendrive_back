@@ -40,9 +40,6 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Image judgeCarImg;
 
-    @OneToMany(mappedBy="user")
-    private List<Likes> likesList = new ArrayList<>();
-
     @Builder
     public User(String name, String userId, String userPassword, String carType, String phoneNo) {
         this.name = name;
