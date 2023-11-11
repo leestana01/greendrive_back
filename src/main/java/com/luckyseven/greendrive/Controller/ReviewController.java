@@ -22,7 +22,6 @@ public class ReviewController {
                                        @ModelAttribute ReviewDto review) throws IOException {
         Review r = reviewService.save(spaceId,review);
         return ResponseEntity.status(HttpStatus.CREATED).body(r);
-
     }
 
     @GetMapping("/space/{spaceId}")     //주차장 리뷰

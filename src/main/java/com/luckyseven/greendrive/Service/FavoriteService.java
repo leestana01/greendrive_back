@@ -8,17 +8,14 @@ import com.luckyseven.greendrive.Repository.SpaceRepository;
 import com.luckyseven.greendrive.Repository.UserRepository;
 import com.luckyseven.greendrive.dto.FavoriteDto;
 import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
-import com.luckyseven.greendrive.dto.spacedto.SpaceResDto;
 import com.luckyseven.greendrive.exception.FavoriteAlreadyExistException;
 import com.luckyseven.greendrive.exception.FavoriteNotFoundException;
-import com.luckyseven.greendrive.exception.SpaceNotFoundException;
 import com.luckyseven.greendrive.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +29,7 @@ public class FavoriteService {
         User user = userRepository.findByUserId(favoriteDto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(favoriteDto.getUserId()));
         Space space = spaceRepository.findById(favoriteDto.getSpaceId())
-                .orElseThrow(() -> new SpaceNotFoundException(favoriteDto.getSpaceId()));
+                .orElseThrow(() -> new EntityNotFoundException(favoriteDto.getSpaceId()));
 
         if (favoriteRepository.findByUserAndSpace(user,space).isPresent()){
             throw new FavoriteAlreadyExistException(user.getUserId(), space.getId());
@@ -44,9 +41,9 @@ public class FavoriteService {
         return favorite.toDto();
     }
 
-    public List<SpaceForSearchDto> read(FavoriteDto favoriteDto) {
-        User user = userRepository.findByUserId(favoriteDto.getUserId())
-                .orElseThrow(() -> new UserNotFoundException(favoriteDto.getUserId()));
+    public List<SpaceForSearchDto> read(String userId) {
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
         List<Favorite> favoriteList = favoriteRepository.findByUser(user);
         return favoriteList.stream().map(Favorite::getSpace).map(Space::toDTOforSearch).collect(Collectors.toList());
     }
@@ -55,7 +52,7 @@ public class FavoriteService {
         User user = userRepository.findByUserId(favoriteDto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(favoriteDto.getUserId()));
         Space space = spaceRepository.findById(favoriteDto.getSpaceId())
-                .orElseThrow(() -> new SpaceNotFoundException(favoriteDto.getSpaceId()));
+                .orElseThrow(() -> new EntityNotFoundException(favoriteDto.getSpaceId()));
 
         Favorite favorite = favoriteRepository.findByUserAndSpace(user, space)
                 .orElseThrow(() -> new FavoriteNotFoundException(favoriteDto.getUserId(), favoriteDto.getSpaceId()));

@@ -1,13 +1,9 @@
 package com.luckyseven.greendrive.Controller;
 
-import com.luckyseven.greendrive.Domain.Favorite;
-import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Service.FavoriteService;
 import com.luckyseven.greendrive.Service.UserService;
 import com.luckyseven.greendrive.dto.FavoriteDto;
-import com.luckyseven.greendrive.dto.memberdto.FindIdReqDto;
-import com.luckyseven.greendrive.dto.memberdto.LoginReqDto;
-import com.luckyseven.greendrive.dto.memberdto.SignupReqDto;
+import com.luckyseven.greendrive.dto.memberdto.*;
 import com.luckyseven.greendrive.dto.spacedto.SpaceForSearchDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,6 +38,20 @@ public class UserController {
                 .body(userService.findUserId(findIdReqDto));
     }
 
+
+    @PatchMapping("/profile-image")
+    public ResponseEntity<?> changeProfileImageByUserId(@ModelAttribute ImageReqDto imageReqDto){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.changeProfileImageById(imageReqDto));
+
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<InfoResDto> findUserInfoById(@RequestParam String userId){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(userService.findUserInfoById(userId));
+    }
+
     @PostMapping("/favorites")
     public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteDto favoriteDto){
         favoriteService.create(favoriteDto);
@@ -49,9 +59,9 @@ public class UserController {
     }
 
     @GetMapping("/favorites")
-    public ResponseEntity<List<SpaceForSearchDto>> read(@RequestBody FavoriteDto favoriteDto){
+    public ResponseEntity<List<SpaceForSearchDto>> read(@RequestParam String userId){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(favoriteService.read(favoriteDto));
+                .body(favoriteService.read(userId));
     }
 
     @DeleteMapping("/favorites")
@@ -59,4 +69,12 @@ public class UserController {
         favoriteService.delete(favoriteDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/judge")
+    public ResponseEntity<?> registerCarJudge(@ModelAttribute ImageReqDto imageReqDto){
+        userService.registerCarJudge(imageReqDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SpaceService {
 
-    public final SpaceRepository spaceRepository;
+    private final SpaceRepository spaceRepository;
 
     // CREATE 영역 -------------------------------
     public SpaceResDto createSpace(SpaceReqDto spaceReqDto){
