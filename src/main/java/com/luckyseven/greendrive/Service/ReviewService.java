@@ -10,13 +10,16 @@ import com.luckyseven.greendrive.Repository.SpaceRepository;
 import com.luckyseven.greendrive.Repository.UserRepository;
 import com.luckyseven.greendrive.dto.ReviewDto;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -34,16 +37,17 @@ public class ReviewService {
         } //삭제 후 업데이트 하기
 
         Review newReview = new Review();
-        newReview.setContent(review.getContent());
+        newReview.setContent(review.getContent()); //내용
+
         Optional<User> optionalUser = userRepository.findByUserId(userId);
         Optional<Space> s = spaceRepository.findById(spaceId);
         s.ifPresent(newReview::setSpace);
-        if (optionalUser.isPresent()) {
-            User u = optionalUser.get();
-            newReview.setUser(u);
-        }
-        else throw new IllegalArgumentException("유저나 주차장 정보가 존재하지 않습니다");
+        optionalUser.ifPresent(newReview::setUser);
         //유저 정보와 주차장 정보 넣기
+
+        LocalDate now = LocalDate.now();
+        newReview.setDate(now.toString());
+        newReview.setLikes(0); //처음 좋아요는 0
 
         //이미지 처리
         if (review.getReviewImage()!=null) {

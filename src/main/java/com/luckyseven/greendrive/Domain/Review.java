@@ -29,8 +29,15 @@ public class Review {
 
     private String content; // 리뷰 내용
 
+    private String date; //리뷰 등록 날짜
+    private Integer likes; //좋아요 수
+
     public void update(Image image, String content) {
         this.image = image;
         this.content = content;
+    }
+
+    public void likes(Integer likes){
+        this.likes = likes;
     }
 }

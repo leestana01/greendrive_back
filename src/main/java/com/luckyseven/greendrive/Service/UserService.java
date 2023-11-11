@@ -101,15 +101,15 @@ public class UserService {
     public void registerCarJudge(ImageReqDto imageReqDto){
         User user = userRepository.findByUserId(imageReqDto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(imageReqDto.getUserId()));
-        Image image = new Image();
-        try {
-            image.setData(imageReqDto.getImage().getBytes());
-        } catch (IOException e) {
-            throw new EntityNotFoundException(e.getMessage());
-        }
+//        Image image = new Image();
+//        try {
+//            image.setData(imageReqDto.getImage().getBytes());
+//        } catch (IOException e) {
+//            throw new EntityNotFoundException(e.getMessage());
+//        }
 
         user.setIsJudged(2);
-        user.setJudgeCarImg(image);
+        //user.setJudgeCarImg(image);
         userRepository.save(user);
 
     }
