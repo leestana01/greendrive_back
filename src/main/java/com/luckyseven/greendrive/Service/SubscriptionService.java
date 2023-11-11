@@ -11,6 +11,7 @@ import com.luckyseven.greendrive.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SubscriptionService {
 
-    public final SubscriptionRepository subscriptionRepository;
-    public final UserRepository userRepository;
-    public final SpaceRepository spaceRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final UserRepository userRepository;
+    private final SpaceRepository spaceRepository;
 
     public SubscriptionDto addSubscription(SubscriptionDto dto) {
         User user = userRepository.findByUserId(dto.getUserId())
@@ -33,6 +34,10 @@ public class SubscriptionService {
 
         if (dto.getStartDate() == null | dto.getExpireDate() == null){
             throw new EntityNotFoundException(dto.getStartDate() + " 또는 " + dto.getSpaceId());
+        }
+
+        if (subscriptionRepository.existsActiveSubscriptionByUserAndSpace(user, space)) {
+            throw new EntityExistsException("userId: " + user.getUserId() + ", spaceId: "+space.getId());
         }
         Subscription subscription = new Subscription();
         subscription.setUser(user);
@@ -46,7 +51,9 @@ public class SubscriptionService {
     }
 
     public List<SubscriptionDto> getActiveSubscriptionsByUser(String userId) {
-        return subscriptionRepository.findActiveSubscriptionsByUserId(userId).stream().map(Subscription::toDto).collect(Collectors.toList());
+        User user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+        return subscriptionRepository.findActiveSubscriptionsByUser(user).stream().map(Subscription::toDto).collect(Collectors.toList());
     }
 
 }

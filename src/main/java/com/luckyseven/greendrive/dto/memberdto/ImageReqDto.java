@@ -7,9 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImageChangeReqDto {
+public class ImageReqDto {
 
     private String userId;
-    private MultipartFile profileImage;
+    private MultipartFile image;
 
 }

@@ -23,6 +23,7 @@ public class User {
     private String userPassword; // 비밀번호
     private String carType;
     private String phoneNo;
+    private Integer isJudged = 0; // (0: 등록 안됨, 1: 승인 됨, 2: 심사 중, 3: 심사 반려)
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviewList = new ArrayList<>();
@@ -35,6 +36,9 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Image profileImg;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Image judgeCarImg;
 
     @Builder
     public User(String name, String userId, String userPassword, String carType, String phoneNo) {

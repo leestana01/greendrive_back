@@ -4,13 +4,12 @@ import com.luckyseven.greendrive.Domain.Image;
 import com.luckyseven.greendrive.Domain.User;
 import com.luckyseven.greendrive.Repository.UserRepository;
 import com.luckyseven.greendrive.dto.memberdto.*;
-import com.luckyseven.greendrive.exception.ImageNotFoundException;
 import com.luckyseven.greendrive.exception.UserDuplicateException;
 import com.luckyseven.greendrive.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 
 @Service
@@ -66,32 +65,52 @@ public class UserService {
                 .id(user.getId())
                 .userId(user.getUserId())
                 .name(user.getName())
-                .carType(user.getCarType());
+                .carType(user.getCarType())
+                .isJudged(user.getIsJudged());
         if (user.getProfileImg() != null) {
             builder.profileImage(user.getProfileImg().getData());
         }
         return builder.build();
     }
 
-    public InfoResDto changeProfileImageById(ImageChangeReqDto dto) {
+    public InfoResDto changeProfileImageById(ImageReqDto dto) {
         User user = userRepository.findByUserId(dto.getUserId())
                 .orElseThrow(() -> new UserNotFoundException(dto.getUserId()));
 
         Image image = user.getProfileImg() != null ? user.getProfileImg() : new Image();
         try {
-            image.setData(dto.getProfileImage().getBytes());
+            image.setData(dto.getImage().getBytes());
         } catch (IOException e) {
             image.setData(null);
         }
         user.setProfileImg(image);
         userRepository.save(user);
 
-        return InfoResDto.builder()
+        InfoResDto.InfoResDtoBuilder builder = InfoResDto.builder()
                 .id(user.getId())
                 .userId(user.getUserId())
                 .name(user.getName())
-                .profileImage(user.getProfileImg().getData())
                 .carType(user.getCarType())
-                .build();
+                .isJudged(user.getIsJudged());
+        if (user.getProfileImg() != null) {
+            builder.profileImage(user.getProfileImg().getData());
+        }
+        return builder.build();
+    }
+
+    public void registerCarJudge(ImageReqDto imageReqDto){
+        User user = userRepository.findByUserId(imageReqDto.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(imageReqDto.getUserId()));
+        Image image = new Image();
+        try {
+            image.setData(imageReqDto.getImage().getBytes());
+        } catch (IOException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
+
+        user.setIsJudged(2);
+        user.setJudgeCarImg(image);
+        userRepository.save(user);
+
     }
 }

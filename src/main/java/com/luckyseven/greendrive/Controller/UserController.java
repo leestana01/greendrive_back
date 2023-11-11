@@ -1,7 +1,5 @@
 package com.luckyseven.greendrive.Controller;
 
-import com.luckyseven.greendrive.Domain.Favorite;
-import com.luckyseven.greendrive.Domain.Space;
 import com.luckyseven.greendrive.Service.FavoriteService;
 import com.luckyseven.greendrive.Service.UserService;
 import com.luckyseven.greendrive.dto.FavoriteDto;
@@ -40,16 +38,11 @@ public class UserController {
                 .body(userService.findUserId(findIdReqDto));
     }
 
-    @PostMapping("/favorites")
-    public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteDto favoriteDto){
-        favoriteService.create(favoriteDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
     @PatchMapping("/profile-image")
-    public ResponseEntity<?> changeProfileImageByUserId(@ModelAttribute ImageChangeReqDto imageChangeReqDto){
+    public ResponseEntity<?> changeProfileImageByUserId(@ModelAttribute ImageReqDto imageReqDto){
         return ResponseEntity.status(HttpStatus.OK)
-                .body(userService.changeProfileImageById(imageChangeReqDto));
+                .body(userService.changeProfileImageById(imageReqDto));
 
     }
 
@@ -57,6 +50,12 @@ public class UserController {
     public ResponseEntity<InfoResDto> findUserInfoById(@RequestParam String userId){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(userService.findUserInfoById(userId));
+    }
+
+    @PostMapping("/favorites")
+    public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteDto favoriteDto){
+        favoriteService.create(favoriteDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/favorites")
@@ -70,4 +69,12 @@ public class UserController {
         favoriteService.delete(favoriteDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/judge")
+    public ResponseEntity<?> registerCarJudge(@ModelAttribute ImageReqDto imageReqDto){
+        userService.registerCarJudge(imageReqDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }

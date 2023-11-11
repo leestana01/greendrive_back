@@ -16,4 +16,5 @@ public class InfoResDto {
     private String name;
     private byte[] profileImage;
     private String carType;
+    private Integer isJudged;
 }
