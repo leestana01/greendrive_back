@@ -30,6 +30,12 @@ public class ReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(ReviewList);
     }
 
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<Review> readReview(@PathVariable long reviewId){
+        Review r = reviewService.findById(reviewId);
+        return ResponseEntity.status(HttpStatus.OK).body(r);
+    }
+
     @GetMapping("/user/{userId}") //내 리뷰
     public ResponseEntity<List<Review>> read(@PathVariable String userId){
         List<Review> userReview = reviewService.findAllByUserId(userId);

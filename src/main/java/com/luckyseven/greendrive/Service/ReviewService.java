@@ -93,5 +93,10 @@ public class ReviewService {
         }
         return r.get(0);
     }
+
+    public Review findById(long reviewId) {
+        Optional<Review> r = reviewRepository.findById(reviewId);
+        return r.orElse(null);
+    }
 }
 
