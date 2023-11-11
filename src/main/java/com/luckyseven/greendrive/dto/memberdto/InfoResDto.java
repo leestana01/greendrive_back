@@ -15,4 +15,5 @@ public class InfoResDto {
     private String userId;
     private String name;
     private byte[] profileImage;
+    private String carType;
 }

@@ -65,7 +65,8 @@ public class UserService {
         InfoResDto.InfoResDtoBuilder builder = InfoResDto.builder()
                 .id(user.getId())
                 .userId(user.getUserId())
-                .name(user.getName());
+                .name(user.getName())
+                .carType(user.getCarType());
         if (user.getProfileImg() != null) {
             builder.profileImage(user.getProfileImg().getData());
         }
@@ -90,6 +91,7 @@ public class UserService {
                 .userId(user.getUserId())
                 .name(user.getName())
                 .profileImage(user.getProfileImg().getData())
+                .carType(user.getCarType())
                 .build();
     }
 }
