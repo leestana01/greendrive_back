@@ -21,5 +21,6 @@ public class ReviewDto {
     private String userId;
     private MultipartFile reviewImage;
     private String content;
+    private Integer satisfaction;
 
 }

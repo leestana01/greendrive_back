@@ -22,6 +22,7 @@ public class Review {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    private String name;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
@@ -31,6 +32,8 @@ public class Review {
 
     private String date; //리뷰 등록 날짜
     private Integer likes; //좋아요 수
+
+    private Integer satisfaction=0; //1~5의 level
 
     public void update(Image image, String content) {
         this.image = image;

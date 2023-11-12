@@ -54,5 +54,11 @@ public class ReviewController {
         reviewService.delete(reviewDto.getUserId(), spaceId);
     }
 
+    @PostMapping("/{spaceId}/satisfy")
+    public ResponseEntity<Integer> updateSatisfy(@RequestBody ReviewDto reviewDto, @PathVariable String spaceId){
+        int s = reviewService.updateSatisfy(reviewDto.getId(), reviewDto.getSatisfaction());
+        return ResponseEntity.status(HttpStatus.OK).body(s);
+    }
+
 
 }

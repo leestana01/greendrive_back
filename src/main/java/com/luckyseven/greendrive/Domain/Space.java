@@ -39,6 +39,8 @@ public class Space {
     @OneToMany(mappedBy = "space")
     private List<Review> reviewList = new ArrayList<>(); // 리뷰 목록
 
+    private long AveSatisfaction=-1;
+
     public Space(SpaceReqDto dto) {
         this.id = dto.getId();
         this.parkName = dto.getParkName();

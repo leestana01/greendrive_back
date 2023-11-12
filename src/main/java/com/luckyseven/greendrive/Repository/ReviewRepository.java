@@ -25,5 +25,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Modifying
     void deleteByUserIdAndSpaceId(long userId, String spaceId);
 
+    @Query("SELECT r FROM Review r WHERE r.space.id =:spaceId")
+    List<Review> findAllBySpaceId(@Param("spaceId") String spaceId);
+
 
 }
